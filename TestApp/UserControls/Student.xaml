@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="TestApp.UserControls.Student"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:TestApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400" FontSize="15" Padding="20">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Margin="0 0 0 20" Content="Student" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+               HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+
+        <Label HorizontalContentAlignment="right" Content="First Name : " Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding Path=FirstName}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="1" Grid.Column="1"/>
+
+        <Label HorizontalContentAlignment="right" Content="Middle Name : " Grid.Row="2" Grid.Column="0"/>
+        <TextBox Text="{Binding MiddleName}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="2" Grid.Column="1"/>
+
+        <Label HorizontalContentAlignment="right" Content="Last Name : " Grid.Row="3" Grid.Column="0"/>
+        <TextBox Text="{Binding LastName}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="3" Grid.Column="1"/>
+
+        <Label HorizontalContentAlignment="right" Content=" Age : " Grid.Row="4" Grid.Column="0"/>
+        <TextBox Text="{Binding Age}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="4" Grid.Column="1"/>
+
+        <Label HorizontalContentAlignment="right" Content="City : " Grid.Row="5" Grid.Column="0"/>
+        <TextBox Text="{Binding City}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="5" Grid.Column="1"/>
+
+        <Label HorizontalContentAlignment="right" Content="Standard : " Grid.Row="6" Grid.Column="0"/>
+        <WrapPanel VerticalAlignment="Center" Grid.Row="6" Grid.Column="1">
+            <ComboBox ItemsSource="{Binding Path=AllStandards}" 
+                  DisplayMemberPath="StandardName"
+                  SelectedItem="{Binding SelectedStandard}" SelectedIndex="{Binding StdIndex}"
+                  VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left"
+                  Width="165"/>
+            <Button Content="Result" Command="{Binding ShowResultCommand}" Width="80" Margin="4 0 0 0"></Button>
+        </WrapPanel>
+
+        <Button Command="{Binding SubmitStudentCommand}"
+                Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                Content="{Binding ButtonName}" Padding="3" FontSize="16" Width="120"
+                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    </Grid>
+</UserControl>

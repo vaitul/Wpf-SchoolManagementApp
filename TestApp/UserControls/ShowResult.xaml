@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="TestApp.UserControls.ShowResult"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestApp.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0">
+
+            <GroupBox Margin="50 10" Background="#fdfdfd">
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <Image Margin="0"  Width="24" Height="24" Source="/Components/result_icon.png"/>
+                        <TextBlock Text=" Result" FontSize="18"/>
+                    </WrapPanel>
+                </GroupBox.Header>
+
+                <FlowDocumentScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                    <FlowDocument >
+                        <Table CellSpacing="0">
+                            <Table.Columns>
+                                <TableColumn Width="100"/>
+                                <TableColumn/>
+                            </Table.Columns>
+                            <TableRowGroup>
+
+                                <TableRow>
+                                    <TableCell FontSize="18" TextAlignment="Center" ColumnSpan="2"  Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph Margin="7">Student</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Name"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Student.FirstName}"/>
+                                            <TextBlock Text="{ Binding Student.MiddleName}"/>
+                                            <TextBlock Text="{ Binding Student.LastName}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Seat No."/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Student.StudentId}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Standard"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Standard.StandardName}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Age"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Student.Age}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="City"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Student.City}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell FontSize="16" ColumnSpan="2"  Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <StackPanel>
+                                                <TextBlock TextAlignment="Center" Margin="5" Text="Result"/>
+                                                <DataGrid x:Name="SubjectDataGrid" SelectedItem="{Binding SelectedSubjectItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsReadOnly="True" BorderThickness="1 1 0 0" Margin="5 5 5 10" ItemsSource="{Binding SubjectAndMarks}" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="Subject" Binding="{Binding SubjectName}" Width="*"/>
+                                                        <DataGridTextColumn Header="Marks" Binding="{Binding Mark,UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                                                        <DataGridTextColumn Header="Result" Binding="{Binding Result,UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </StackPanel>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Total"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Total}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="Result"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 0">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Result}"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="1 1 1 1">
+                                        <Paragraph>
+                                            <TextBlock Text="Percentage"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell Padding="2" BorderBrush="#aaa" BorderThickness="0 1 1 1">
+                                        <Paragraph>
+                                            <TextBlock Text="{ Binding Percentage,StringFormat={}{0} % }"/>
+                                        </Paragraph>
+                                    </TableCell>
+                                </TableRow>
+
+                            </TableRowGroup>
+                        </Table>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+
+            </GroupBox>
+
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox IsReadOnly="True" MinWidth="70" Text="{Binding SelectedItem.SubjectName,Mode=OneWay,ElementName=SubjectDataGrid}" Grid.Column="0" Margin="5 5 0 5" Padding="3"/>
+
+            <TextBox ForceCursor="False" Text="{Binding EditBox,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Grid.Column="1" Margin="5 5 0 5" Padding="3"
+                     MouseDoubleClick="SelectAddress"
+                    GotKeyboardFocus="SelectAddress"
+                    PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton"
+                     KeyUp="TextBox_KeyUp">  
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SaveMarksCommand}" Key="Return"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button MinWidth="70" Grid.Column="2" Margin="5" Padding="3" Command="{Binding SaveMarksCommand}">Update</Button>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

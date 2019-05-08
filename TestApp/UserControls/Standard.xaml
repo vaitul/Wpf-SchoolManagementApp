@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TestApp.UserControls.Standard"
+             x:Name="StandardUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" HorizontalAlignment="Center"
+             d:DesignHeight="490" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Margin="0 0 0 10" Content="Manage Standards" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+               HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
+            <TextBox Text="{Binding NameToBeAdded}" Width="220" FontSize="18" VerticalContentAlignment="Center" />
+            <Button Command="{Binding AddStandardCommand}" Width="80" FontSize="16" VerticalContentAlignment="Center">Add</Button>
+        </StackPanel>
+
+        <StackPanel Background="#eee" Grid.Row="2" Margin="0 20 0 0">
+            <Label HorizontalContentAlignment="Center" Background="#eee" Content="All Standard(s)"/>
+            <DataGrid Height="auto" MaxHeight="350" BorderThickness="0" CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding StandardList,Mode=TwoWay}" SelectedItem="{Binding CurrentSelectedItem}" Padding="0 0 5 0">
+                <DataGrid.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding RemoveRecordCommand}"/>
+                </DataGrid.InputBindings>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Width="auto" Header="Id" Binding="{Binding StandardId}"/>
+                    <DataGridTextColumn Width="*" Header="Name" Binding="{Binding StandardName}"/>
+                    <DataGridTemplateColumn Header="Subjects">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button ToolTip="View Subjects" Background="#fff" BorderThickness="0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.ShowSubjectsCommand}">
+                                    <Image Source="/Components/eye_icon2.png"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!--<Button Command="{Binding CloseStandardWindowCommand}" Content="Exit" Height="24" FontSize="14" Width="100" Margin="0 5 2 0"/>-->
+                <Button Command="{Binding SaveChangesCommand}" Content="Save Changes" Height="24" FontSize="14" Width="100" Margin="2 5 0 0"/>
+            </StackPanel>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
