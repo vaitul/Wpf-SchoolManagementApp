@@ -5,7 +5,6 @@
         xmlns:ViewModels="clr-namespace:TestApp.ViewModels"
         xmlns:local="clr-namespace:TestApp"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
         Title="MainWindow" Height="600" Width="650" ResizeMode="NoResize">
   
     <Grid>

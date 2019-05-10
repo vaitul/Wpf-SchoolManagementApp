@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace TestApp.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
-    {
+    {   
         protected bool SetValue<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(value, property))

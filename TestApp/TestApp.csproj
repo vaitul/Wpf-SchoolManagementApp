@@ -101,6 +101,7 @@
     <Compile Include="EntityDatabase\Mapping\AllMarksMap.cs" />
     <Compile Include="EntityDatabase\Mapping\StandardMap.cs" />
     <Compile Include="EntityDatabase\Mapping\StudentMap.cs" />
+    <Compile Include="EntityDatabase\Mapping\SubjectMap.cs" />
     <Compile Include="EntityDatabase\SchoolEntityContext\SchoolObjContext.cs" />
     <Compile Include="UserControls\ShowAllStudent.xaml.cs">
       <DependentUpon>ShowAllStudent.xaml</DependentUpon>
