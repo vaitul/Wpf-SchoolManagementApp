@@ -25,7 +25,7 @@ namespace TestApp.ViewModels
         public string NameToBeAdded
         {
             get { return _NameToBeAdded; }
-            set { _NameToBeAdded = value; }
+            set { SetValue(ref _NameToBeAdded, value); }
         }
 
         private ObservableCollection<EntityDatabase.DomainClasses.Standard> _StandardList;
@@ -100,6 +100,8 @@ namespace TestApp.ViewModels
                 context.SaveChanges();
                 StandardList.Add(context.Standards.AsEnumerable().Last());
                 var StdId = context.Standards.Where(s => s.StandardName == NameToBeAdded).FirstOrDefault().StandardId;
+
+                NameToBeAdded = "";
 
                 MainViewModel.RefreshView("Subjects");
                 MainViewModel.RefreshView("Show Students");
