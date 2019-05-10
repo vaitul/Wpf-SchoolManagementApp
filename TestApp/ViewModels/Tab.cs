@@ -16,7 +16,7 @@ namespace TestApp.ViewModels
             get { return _IsSelected; }
             set
             {
-                if (_IsSelected == false && TabTitle == "Standards")
+                if (_IsSelected == false && TabTitle != "Add Subjects")
                 {
                     MainViewModel.CloseTabs("Add Subjects");
                 }
