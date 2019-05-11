@@ -126,7 +126,22 @@ namespace TestApp.ViewModels
 
         public override void RefreshView()
         {
-            this.UserControl.DataContext = new SubjectViewModel(this.SelectedStandard.StandardId.ToString());
+            SchoolObjContext Context = new SchoolObjContext();
+            this.AllSubjects = new ObservableCollection<object>(
+                        (from Subject in Context.Subjects
+                         join Standard in Context.Standards
+                         on Subject.StandardId equals Standard.StandardId
+                         select new
+                         {
+                             Id = Subject.Id,
+                             Name = Subject.Name,
+                             Standard = Standard.StandardName
+                         }).ToList()
+                        );
+
+            AllStandards = Context.Standards.ToList();
+            AllStandards.Insert(0, new EntityDatabase.DomainClasses.Standard() { StandardId = 0, StandardName = "All" });
+            this.SelectedStandard = this._SelectedStandard;
         }
 
         private void RemoveSubject()
@@ -159,10 +174,10 @@ namespace TestApp.ViewModels
             Context.Subjects.Add(subject);
             if (Context.SaveChanges() > 0)
             {
-                MainViewModel.RefreshView("Subjects");
                 MessageBox.Show("Subject Added Successfully", "Success !", MessageBoxButton.OK, MessageBoxImage.Information);
                 AllSubjects.Add(subject);
                 EditBox = "";
+                MainViewModel.RefreshView("Subjects");
             }
         }
 
@@ -194,7 +209,7 @@ namespace TestApp.ViewModels
             {
                 if (AllSubjects != null)
                     AllSubjects = null;
-                if (std.StandardId == 0)
+                if (std == null || std.StandardId == 0)
                 {
                     AllSubjects = new ObservableCollection<object>(
                         (from Subject in Context.Subjects
