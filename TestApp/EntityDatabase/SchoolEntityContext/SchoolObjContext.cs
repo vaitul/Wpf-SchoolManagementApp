@@ -14,7 +14,7 @@ namespace TestApp.EntityDatabase.SchoolEntityContext
         {
 
         }
-
+            
         public DbSet<DomainClasses.Student> Students { get; set; }
         public DbSet<DomainClasses.Standard> Standards { get; set; }
         public DbSet<DomainClasses.AllMarks> AllMarks { get; set; }
