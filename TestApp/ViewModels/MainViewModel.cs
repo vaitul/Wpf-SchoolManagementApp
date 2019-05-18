@@ -1,4 +1,5 @@
-﻿using System;
+﻿using TestApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -20,6 +21,7 @@ namespace TestApp.ViewModels
         public RelayCommand NewStandardTabCommand { get; set; }
         public RelayCommand ShowAllStudentTabCommand { get; set; }
         public RelayCommand NewSubjectsTabCommand { get; set; }
+        public RelayCommand NewResultReportCommand { get; set; }
 
         public static void CloseTabs(string TabTitle)
         {
@@ -57,15 +59,24 @@ namespace TestApp.ViewModels
             NewStudentTabCommand = new RelayCommand((x) => NewStudentTab());
             ShowAllStudentTabCommand = new RelayCommand((x) => ShowAllStudent());
             NewSubjectsTabCommand = new RelayCommand((x) => NewSubjectsTab());
+            NewResultReportCommand = new RelayCommand((x) => NewResultReportTab());
 
             Tabs.CollectionChanged += Tabs_Collection_Changed;
 
             HomeImageVisibilty = Visibility.Visible;
 
 
-            ShowAllStudentViewModel tmp = new ShowAllStudentViewModel();
+            ReportResultViewModel tmp = new ReportResultViewModel();
             tmp = null;
 
+            NewResultReportTab();
+
+
+        }
+
+        private void NewResultReportTab()
+        {
+            Tabs.Add(new ReportResultViewModel());
         }
 
         private void NewSubjectsTab()

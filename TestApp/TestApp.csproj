@@ -7,7 +7,7 @@
     <ProjectGuid>{D27260D0-4855-4DDD-8DA9-37823281EC40}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SchoolManagementSys</RootNamespace>
+    <RootNamespace>TestApp</RootNamespace>
     <AssemblyName>SchoolManagementSys</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -103,6 +103,9 @@
     <Compile Include="EntityDatabase\Mapping\StudentMap.cs" />
     <Compile Include="EntityDatabase\Mapping\SubjectMap.cs" />
     <Compile Include="EntityDatabase\SchoolEntityContext\SchoolObjContext.cs" />
+    <Compile Include="UserControls\ResultReport.xaml.cs">
+      <DependentUpon>ResultReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ShowAllStudent.xaml.cs">
       <DependentUpon>ShowAllStudent.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,7 @@
       <DependentUpon>Subject.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ReportResultViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\ShowAllStudentViewModel.cs" />
     <Compile Include="ViewModels\StandardViewModel.cs" />
@@ -138,6 +142,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\ResultReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ShowAllStudent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

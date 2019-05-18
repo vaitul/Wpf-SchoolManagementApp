@@ -84,7 +84,7 @@ namespace TestApp.ViewModels
         public RelayCommand SaveChangesCommand { get; set; }
         public RelayCommand DeleteSubject { get; set; }
 
-        public SubjectViewModel(string StdId="0")
+        public SubjectViewModel(string StdId = "0")
         {
             this.TabTitle = "Subjects";
             this.ButtonText = "Save";
@@ -111,9 +111,9 @@ namespace TestApp.ViewModels
 
             using (var context = new SchoolObjContext())
             {
-                AllStandards = context.Standards.Where(s=>s.StandardId==stdId).ToList();
+                AllStandards = context.Standards.Where(s => s.StandardId == stdId).ToList();
                 //AllStandards.Insert(0, new EntityDatabase.DomainClasses.Standard() { StandardId = 0, StandardName = "All" });
-                AddSectionVisibility = context.Subjects.Where(s => s.StandardId == stdId).Count() > 0 ? Visibility.Hidden : Visibility.Visible; 
+                AddSectionVisibility = context.Subjects.Where(s => s.StandardId == stdId).Count() > 0 ? Visibility.Hidden : Visibility.Visible;
             }
 
             this.StandardSelectionChanged(new EntityDatabase.DomainClasses.Standard());
@@ -197,8 +197,8 @@ namespace TestApp.ViewModels
                     MainViewModel.RefreshView(this.TabTitle);
                     MessageBox.Show("Subject Edited Successfully", "Success !", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                int i = AllSubjects.IndexOf(SelectedGridItem);
-                AllSubjects[i] = obj as object;
+                //int i = AllSubjects.IndexOf(SelectedGridItem);
+                //AllSubjects[i] = obj as object;
                 EditBox = "";
             }
         }

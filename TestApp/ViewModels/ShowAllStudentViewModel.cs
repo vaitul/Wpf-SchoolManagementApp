@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using TestApp.Command;
 using TestApp.EntityDatabase.DomainClasses;
 using TestApp.EntityDatabase.SchoolEntityContext;
+using TestApp.UserControls;
 
 namespace TestApp.ViewModels
 {
@@ -39,6 +40,7 @@ namespace TestApp.ViewModels
         public ShowAllStudentViewModel()
         {
             TabTitle = "Show Students";
+            UserControl = new ShowAllStudent() { DataContext = this };
 
             RemoveRecordCommand = new RelayCommand(x => RemoveRecord());
             EditStudentCommand = new RelayCommand(x => EditStudent(x));
@@ -56,7 +58,6 @@ namespace TestApp.ViewModels
                     }
                 ).ToList());
 
-            UserControl = new UserControls.ShowAllStudent() { DataContext = this };
         }
 
         public override void RefreshView()
@@ -86,8 +87,8 @@ namespace TestApp.ViewModels
                 return;
             SchoolObjContext context = new SchoolObjContext();
             dynamic item = CurrentItem;
-            Student SelectedStudent = CurrentItem.Student;
-            Student obj = context.Students.Where(s => s.StudentId == SelectedStudent.StudentId).FirstOrDefault();
+            EntityDatabase.DomainClasses.Student SelectedStudent = CurrentItem.Student;
+            EntityDatabase.DomainClasses.Student obj = context.Students.Where(s => s.StudentId == SelectedStudent.StudentId).FirstOrDefault();
             if (obj == null)
                 return;
             context.Students.Remove(obj);

@@ -25,7 +25,7 @@
                 </GroupBox.Header>
 
                 <FlowDocumentScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                    <FlowDocument >
+                    <FlowDocument>
                         <Table CellSpacing="0">
                             <Table.Columns>
                                 <TableColumn Width="100"/>
@@ -111,13 +111,22 @@
                                         <Paragraph>
                                             <StackPanel>
                                                 <TextBlock TextAlignment="Center" Margin="5" Text="Result"/>
-                                                <DataGrid x:Name="SubjectDataGrid" SelectedItem="{Binding SelectedSubjectItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsReadOnly="True" BorderThickness="1 1 0 0" Margin="5 5 5 10" ItemsSource="{Binding SubjectAndMarks}" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                <DataGrid MaxHeight="140" VerticalScrollBarVisibility="Auto" SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical" x:Name="SubjectDataGrid" SelectedItem="{Binding SelectedSubjectItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsReadOnly="True" BorderThickness="1 1 0 0" Margin="5 5 5 5" ItemsSource="{Binding SubjectAndMarks}" AutoGenerateColumns="False" CanUserAddRows="False">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Header="Subject" Binding="{Binding SubjectName}" Width="*"/>
                                                         <DataGridTextColumn Header="Marks" Binding="{Binding Mark,UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
                                                         <DataGridTextColumn Header="Result" Binding="{Binding Result,UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
+                                                <StackPanel Visibility="{Binding CaryForwardVisibility}"  Margin="5 5" Orientation="Horizontal">
+                                                    <TextBlock FontSize="14" VerticalAlignment="Center" Text="Would you like to caryforward ? "/>
+                                                    <ComboBox FontSize="14" Height="20" ItemsSource="{Binding Path=AllStandards}" 
+                                                      DisplayMemberPath="StandardName"
+                                                      SelectedValue="0" SelectedItem="{Binding SelectedStandard}"
+                                                      VerticalContentAlignment="Center" VerticalAlignment="Center" 
+                                                      Width="165"/>
+                                                    <Button FontSize="14" Height="20" Width="50" Command="{Binding CaryForwardCommand}">GO</Button>
+                                                </StackPanel>
                                             </StackPanel>
                                         </Paragraph>
                                     </TableCell>
@@ -184,7 +193,7 @@
                      MouseDoubleClick="SelectAddress"
                     GotKeyboardFocus="SelectAddress"
                     PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton"
-                     KeyUp="TextBox_KeyUp">  
+                     KeyUp="TextBox_KeyUp">
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding SaveMarksCommand}" Key="Return"/>
                 </TextBox.InputBindings>
