@@ -23,6 +23,7 @@ namespace TestApp.UserControls
         public Subject()
         {
             InitializeComponent();
+            AddSubBox.Focus();
         }
     }
 }

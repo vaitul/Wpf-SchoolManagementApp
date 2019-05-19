@@ -174,7 +174,7 @@ namespace TestApp.ViewModels
             Context.Subjects.Add(subject);
             if (Context.SaveChanges() > 0)
             {
-                MessageBox.Show("Subject Added Successfully", "Success !", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Subject Added Successfully", "Success !", MessageBoxButton.OK, MessageBoxImage.Information);
                 AllSubjects.Add(subject);
                 EditBox = "";
                 MainViewModel.RefreshView("Subjects");

@@ -101,11 +101,12 @@ namespace TestApp.ViewModels
             set { SetValue(ref _EditBox, value); }
         }
 
+        public bool CanCloseThisTab { get; set; }
 
         public RelayCommand SaveMarksCommand { get; set; }
         public RelayCommand CaryForwardCommand { get; set; }
 
-        public ResultViewModel(int StudentId,int StandardId = 0)
+        public ResultViewModel(int StudentId, int StandardId = 0, bool CanGenerateResult = false)
         {
 
             TabTitle = "Result";
@@ -115,7 +116,7 @@ namespace TestApp.ViewModels
             {
                 this.Student = Context.Students.Where(s => s.StudentId == StudentId).FirstOrDefault();
 
-                if(StandardId > 0)
+                if (StandardId > 0)
                 {
                     Student.StandardId = StandardId;
                 }
@@ -124,7 +125,15 @@ namespace TestApp.ViewModels
                 {
                     this.Standard = Context.Standards.Where(s => s.StandardId == Student.StandardId).FirstOrDefault();
                     AllStandards = Context.Standards.Where(s => s.StandardId != Standard.StandardId).ToList();
-                    this.Calculate();
+
+                    //var check = (from sheet in Context.AllMarks
+                    //             where sheet.StudentId == Student.StudentId && sheet.StandardId == Student.StandardId
+                    //             select sheet).FirstOrDefault();
+                    if (CanGenerateResult)
+                        GenerateResult();
+
+                    Calculate();
+
                 }
             }
 
@@ -140,6 +149,31 @@ namespace TestApp.ViewModels
                 CaryForwardVisibility = Visibility.Hidden;
         }
 
+        private void GenerateResult()
+        {
+            SchoolObjContext context = new SchoolObjContext();
+            //var Student = context.Students.OrderByDescending(s => s.StudentId).FirstOrDefault<Student>();
+
+
+            List<Subject> SubList = (from Subject in context.Subjects
+                                     where (Subject.StandardId == Student.StandardId)
+                                     select Subject).ToList();
+
+            foreach (Subject Item in SubList)
+            {
+                AllMarks sheet = new AllMarks()
+                {
+                    StudentId = Student.StudentId,
+                    StandardId = Student.StandardId,
+                    SubjectId = Item.Id,
+                    Mark = 0
+                };
+                context.AllMarks.Add(sheet);
+            }
+            context.SaveChanges();
+            MainViewModel.RefreshView("Result Report");
+        }
+
         private void CaryForward()
         {
             if (SelectedStandard == null)
@@ -148,28 +182,28 @@ namespace TestApp.ViewModels
             {
                 using (SchoolObjContext context = new SchoolObjContext())
                 {
+                    //List<Subject> SubList = (from Subject in context.Subjects
+                    //                         where (Subject.StandardId == SelectedStandard.StandardId)
+                    //                         select Subject).ToList();
 
-
-                    List<Subject> SubList = (from Subject in context.Subjects
-                                             where (Subject.StandardId == SelectedStandard.StandardId)
-                                             select Subject).ToList();
-
-                    foreach (Subject Item in SubList)
-                    {
-                        AllMarks sheet = new AllMarks()
-                        {
-                            StudentId = Student.StudentId,
-                            StandardId = SelectedStandard.StandardId,
-                            SubjectId = Item.Id,
-                            Mark = 0
-                        };
-                        context.AllMarks.Add(sheet);
-                    }
+                    //foreach (Subject Item in SubList)
+                    //{
+                    //    AllMarks sheet = new AllMarks()
+                    //    {
+                    //        StudentId = Student.StudentId,
+                    //        StandardId = SelectedStandard.StandardId,
+                    //        SubjectId = Item.Id,
+                    //        Mark = 0
+                    //    };
+                    //    context.AllMarks.Add(sheet);
+                    //}
                     var stud = context.Students.Where(s => s.StudentId == Student.StudentId).FirstOrDefault();
                     //stud.Standard = SelectedStandard;
                     stud.StandardId = SelectedStandard.StandardId;
-                    context.SaveChanges();
-                    this.UserControl.DataContext = new ResultViewModel(Student.StudentId);
+                    var tmp = context.SaveChanges();
+                    this.CloseTabCommand.Execute(null);
+                    MainViewModel.CloseTabs("Show Students");
+                    MainViewModel.Tabs.Add(new ShowAllStudentViewModel());
                 }
             }
             return;
@@ -196,6 +230,7 @@ namespace TestApp.ViewModels
             var SubjectMark = Context.AllMarks.Where(s => s.Id == ID).FirstOrDefault();
             SubjectMark.Mark = EditBox;
             Context.SaveChanges();
+            MainViewModel.RefreshView("Result Report");
 
             if (SelectedSubjectItem != null)
             {
@@ -222,16 +257,6 @@ namespace TestApp.ViewModels
 
         private void Calculate()
         {
-            string DesideResult(AllMarks Marksheet)
-            {
-                if (Marksheet.Mark == 0)
-                    return "N/A";
-                else if (Marksheet.Mark < 35)
-                    return "Fail";
-                else
-                    return "Pass";
-            }
-
             SchoolObjContext Context = new SchoolObjContext();
             this.SubjectAndMarks = new ObservableCollection<object>((from Subject in Context.Subjects
                                                                      join Marksheet in Context.AllMarks

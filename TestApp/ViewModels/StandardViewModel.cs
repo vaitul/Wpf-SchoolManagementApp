@@ -81,6 +81,8 @@ namespace TestApp.ViewModels
                 return;
             context.Standards.Remove(std);
             context.SaveChanges();
+            MainViewModel.RefreshView("Result Report");
+
 
             //MainViewModel.CloseTabs("Subjects");
             MainViewModel.RefreshView("Subjects");
@@ -105,6 +107,8 @@ namespace TestApp.ViewModels
 
                 MainViewModel.RefreshView("Subjects");
                 MainViewModel.RefreshView("Show Students");
+                MainViewModel.RefreshView("Result Report");
+
 
                 MainViewModel.Tabs.Add(new SubjectViewModel(StdId));
             }

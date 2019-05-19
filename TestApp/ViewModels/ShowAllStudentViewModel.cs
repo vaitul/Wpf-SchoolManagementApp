@@ -42,10 +42,6 @@ namespace TestApp.ViewModels
             TabTitle = "Show Students";
             UserControl = new ShowAllStudent() { DataContext = this };
 
-            RemoveRecordCommand = new RelayCommand(x => RemoveRecord());
-            EditStudentCommand = new RelayCommand(x => EditStudent(x));
-            ShowResultCommand = new RelayCommand(x=>MainViewModel.Tabs.Add(new ViewModels.ResultViewModel((int)CurrentItem.Student.StudentId)));
-
             SchoolObjContext Context = new SchoolObjContext();
             AllStudents = new ObservableCollection<object>(Context.Students.Join(
                     Context.Standards,
@@ -57,6 +53,30 @@ namespace TestApp.ViewModels
                         StandardName = std.StandardName
                     }
                 ).ToList());
+
+            RemoveRecordCommand = new RelayCommand(x => RemoveRecord());
+            EditStudentCommand = new RelayCommand(x => EditStudent(x));
+            ShowResultCommand = new RelayCommand(x =>
+            {
+                var Student = Context.Students.Where(s => s.StudentId == (int)x).FirstOrDefault();
+                if (Student == null)
+                    return;
+                var check = (from sheet in Context.AllMarks
+                             where sheet.StudentId == Student.StudentId && sheet.StandardId == Student.StandardId
+                             select sheet).FirstOrDefault();
+                if (check == null)
+                {
+                    if (MessageBox.Show("Result not available yet, click 'Yes' to generate", "Result not available", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        MainViewModel.Tabs.Add(new ViewModels.ResultViewModel((int)CurrentItem.Student.StudentId, 0, true));
+                        return;
+                    }
+                }
+                else
+                    MainViewModel.Tabs.Add(new ViewModels.ResultViewModel((int)CurrentItem.Student.StudentId));
+            });
+
+
 
         }
 

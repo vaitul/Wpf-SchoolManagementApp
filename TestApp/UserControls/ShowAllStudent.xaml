@@ -16,7 +16,7 @@
         <Label Margin="0 0 0 10" Content="All Students" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
 
 
-        <DataGrid IsReadOnly="True" BorderBrush="Gray" Grid.Row="1"  CanUserAddRows="False" SelectedItem="{Binding CurrentItem}" AutoGenerateColumns="False" ItemsSource="{Binding AllStudents}">
+        <DataGrid Margin="100 0 100 0" IsReadOnly="True" BorderBrush="Gray" Grid.Row="1"  CanUserAddRows="False" SelectedItem="{Binding CurrentItem}" AutoGenerateColumns="False" ItemsSource="{Binding AllStudents}">
             <DataGrid.InputBindings>
                 <KeyBinding Command="{Binding RemoveRecordCommand}" Key="Delete"/>
             </DataGrid.InputBindings>

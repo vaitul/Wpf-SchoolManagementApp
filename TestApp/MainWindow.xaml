@@ -5,13 +5,13 @@
         xmlns:ViewModels="clr-namespace:TestApp.ViewModels"
         xmlns:local="clr-namespace:TestApp"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="650" Width="650" ResizeMode="NoResize">
+        Title="MainWindow" MinWidth="850" WindowState="Maximized">
 
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="24*"/>
-            <RowDefinition Height="547*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
@@ -94,14 +94,15 @@
 
         <Grid Grid.Row="1" Visibility="{Binding HomeImageVisibilty}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="SCHOOL MANAGEMENT" HorizontalAlignment="Center" FontSize="30" Margin="0 100 0 50" FontFamily="Impact"/>
+                <Image Source="/Components/home_image.png" Width="300" Height="300" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
 
-            <TextBlock Text="SCHOOL MANAGEMENT" HorizontalAlignment="Center" FontSize="30" Margin="0 50 0 -50" FontFamily="Impact"/>
-            <Image Source="/Components/home_image.png" Width="300" Height="300" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+          
         </Grid>
 
     </Grid>

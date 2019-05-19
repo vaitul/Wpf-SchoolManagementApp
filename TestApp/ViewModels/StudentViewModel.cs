@@ -69,7 +69,7 @@ namespace TestApp.ViewModels
             set { SetValue(ref _ButtonName, value); }
         }
 
-        public bool CanShowResult { get; set; }
+        //public bool CanShowResult { get; set; }
 
 
         //for Standard Selection Combo Box
@@ -122,11 +122,11 @@ namespace TestApp.ViewModels
                 if (!CheckCanSubmit())
                 {
                     MessageBox.Show("Fill all the field properly", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    CanShowResult = false;
+                    //CanShowResult = false;
                     return;
                 }
-                else
-                    CanShowResult = true;
+                //else
+                //    CanShowResult = true;
 
                 EntityDatabase.DomainClasses.Student stud = context.Students.Where(s => s.StudentId == Id).FirstOrDefault();
 
@@ -142,8 +142,10 @@ namespace TestApp.ViewModels
                     if (context.SaveChanges() > 0)
                     {
                         MainViewModel.RefreshView("Show Students");
+                        MainViewModel.RefreshView("Result Report");
+
                         MessageBox.Show("Student Edited Successfully", "Edited !", MessageBoxButton.OK, MessageBoxImage.Information);
-                        CanShowResult = true;
+                        //CanShowResult = true;
                     }
                     //else
                     //{
@@ -158,12 +160,12 @@ namespace TestApp.ViewModels
                     this.CloseTabCommand.Execute(null);
                 }
             });
-            ShowResultCommand = new RelayCommand(x =>
-            {
-                this.SubmitStudentCommand.Execute(null);
-                if (CanShowResult)
-                    MainViewModel.Tabs.Add(new ViewModels.ResultViewModel(Id));
-            });
+            //ShowResultCommand = new RelayCommand(x =>
+            //{
+            //    this.SubmitStudentCommand.Execute(null);
+            //    if (CanShowResult)
+            //        MainViewModel.Tabs.Add(new ViewModels.ResultViewModel(Id));
+            //});
 
             UserControl = new UserControls.Student { DataContext = this };
         }
@@ -183,7 +185,7 @@ namespace TestApp.ViewModels
                 if (!CheckCanSubmit())
                 {
                     MessageBox.Show("Fill all the field properly", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    CanShowResult = false;
+                    //CanShowResult = false;
                     return;
                 }
 
@@ -205,15 +207,13 @@ namespace TestApp.ViewModels
                 {
                     MessageBox.Show("Student Registered Successfully", "Registered !", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    GenerateResult();
-
-                    CanShowResult = true;
+                    //CanShowResult = true;
 
                     MainViewModel.RefreshView("Show Students");
                 }
                 else
                 {
-                    CanShowResult = false;
+                    //CanShowResult = false;
                     MessageBox.Show("Student Registration Failed", "Registration Failed !", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 this.FirstName = MiddleName = LastName = "";
@@ -222,12 +222,12 @@ namespace TestApp.ViewModels
                 this.SelectedStandard = ctx.Standards.FirstOrDefault();
                 OnPropertyChanged("SelectedStandard");
             });
-            ShowResultCommand = new RelayCommand(x =>
-            {
-                SubmitStudentCommand.Execute(null);
-                if (CanShowResult)
-                    MainViewModel.Tabs.Add(new ResultViewModel(context.Students.OrderByDescending(s => s.StudentId).FirstOrDefault<Student>().StudentId));
-            });
+            //ShowResultCommand = new RelayCommand(x =>
+            //{
+            //    SubmitStudentCommand.Execute(null);
+            //    if (CanShowResult)
+            //        MainViewModel.Tabs.Add(new ResultViewModel(context.Students.OrderByDescending(s => s.StudentId).FirstOrDefault<Student>().StudentId));
+            //});
 
 
             UserControl = new UserControls.Student { DataContext = this };
@@ -258,28 +258,5 @@ namespace TestApp.ViewModels
             return true;
         }
 
-        public void GenerateResult()
-        {
-            SchoolObjContext context = new SchoolObjContext();
-            var Student = context.Students.OrderByDescending(s => s.StudentId).FirstOrDefault<Student>();
-
-
-            List<Subject> SubList = (from Subject in context.Subjects
-                                     where (Subject.StandardId == Student.StandardId)
-                                     select Subject).ToList();
-
-            foreach (Subject Item in SubList)
-            {
-                AllMarks sheet = new AllMarks()
-                {
-                    StudentId = Student.StudentId,
-                    StandardId = Student.StandardId,
-                    SubjectId = Item.Id,
-                    Mark = 0
-                };
-                context.AllMarks.Add(sheet);
-            }
-            context.SaveChanges();
-        }
     }
 }
