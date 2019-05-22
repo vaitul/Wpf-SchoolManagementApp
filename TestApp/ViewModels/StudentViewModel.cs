@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using TestApp.Command;
 using TestApp.EntityDatabase.DomainClasses;
 using TestApp.EntityDatabase.SchoolEntityContext;
@@ -62,6 +66,56 @@ namespace TestApp.ViewModels
             set { _StdIndex = value; }
         }
 
+        private string _DocFileType;
+
+        public string DocFileType
+        {
+            get { return _DocFileType; }
+            set
+            {
+                if (value == null)
+                    return;
+
+                var ext = value.Split('.').LastOrDefault();
+                if (ext.Equals("PDF", StringComparison.InvariantCultureIgnoreCase))
+                    _DocFileType = "PDF";
+                else if (ext.Equals("PHOTO", StringComparison.InvariantCultureIgnoreCase))
+                    _DocFileType = "PHOTO";
+                else
+                    _DocFileType = "";
+                OnPropertyChanged("DocFileType");
+            }
+        }
+
+        private Byte[] _DocFile;
+        public Byte[] DocFile
+        {
+            get { return _DocFile; }
+            set
+            {
+                SetValue(ref _DocFile,value);
+                if (DocFileType.Equals("photo",StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    //bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                    //bitmapImage.CacheOption = BitmapCacheOption.Default;
+                    bitmapImage.StreamSource = new MemoryStream(value);
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                    DocImageSource = bitmapImage;
+                }
+            }
+        }
+
+        private ImageSource _DocImageSource;
+        public ImageSource DocImageSource
+        {
+            get { return _DocImageSource; }
+            set { SetValue(ref _DocImageSource , value); }
+        }
+
+
         private string _ButtonName;
         public string ButtonName
         {
@@ -102,6 +156,8 @@ namespace TestApp.ViewModels
                         this.LastName = obj.LastName;
                         this.Age = obj.Age;
                         this.City = obj.City;
+                        this.DocFileType = obj.DocType;
+                        this.DocFile = obj.Doc;
                         SelectedStandard = Context.Standards.Where(s => s.StandardId == obj.StandardId).FirstOrDefault();
 
                         for (int i = 0; i < AllStandards.Count; i++)
@@ -138,6 +194,8 @@ namespace TestApp.ViewModels
                     stud.Age = this.Age;
                     stud.City = this.City;
                     stud.StandardId = this.SelectedStandard.StandardId;
+                    stud.Doc = this.DocFile;
+                    stud.DocType = this.DocFileType;
 
                     if (context.SaveChanges() > 0)
                     {
@@ -155,9 +213,9 @@ namespace TestApp.ViewModels
 
 
                     OnPropertyChanged("SelectedStandard");
+                    this.CloseTabCommand.Execute(null);
                     MainViewModel.Tabs.Add(new ShowAllStudentViewModel());
 
-                    this.CloseTabCommand.Execute(null);
                 }
             });
             //ShowResultCommand = new RelayCommand(x =>
@@ -200,7 +258,9 @@ namespace TestApp.ViewModels
                     LastName = this.LastName,
                     Age = this.Age,
                     City = this.City,
-                    StandardId = this.SelectedStandard.StandardId
+                    StandardId = this.SelectedStandard.StandardId,
+                    Doc = this.DocFile,
+                    DocType = this.DocFileType
                 });
 
                 if (ctx.SaveChanges() > 0)
@@ -220,6 +280,7 @@ namespace TestApp.ViewModels
                 this.Age = 0;
                 this.City = "";
                 this.SelectedStandard = ctx.Standards.FirstOrDefault();
+                this.DocFile = null;
                 OnPropertyChanged("SelectedStandard");
             });
             //ShowResultCommand = new RelayCommand(x =>
@@ -253,10 +314,11 @@ namespace TestApp.ViewModels
                 return false;
             if (this.Age < 5)
                 return false;
+            if (this.DocFile == null)
+                return false;
             if (this.SelectedStandard == null)
                 return false;
             return true;
         }
-
     }
 }

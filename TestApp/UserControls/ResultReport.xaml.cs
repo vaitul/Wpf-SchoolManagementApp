@@ -19,7 +19,7 @@ namespace SchoolManagementSys.UserControls
     /// <summary>
     /// Interaction logic for ResultReport.xaml
     /// </summary>
-    public partial class ResultReport : UserControl
+    public partial class ResultReport
     {
         public ResultReport()
         {

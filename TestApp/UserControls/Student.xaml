@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:model="clr-namespace:TestApp.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400" FontSize="15" Padding="20">
-    <Grid HorizontalAlignment="Center">
+
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CloseTabCommand}" Key="Esc"/>
+    </UserControl.InputBindings>
+
+    <Grid HorizontalAlignment="Center" x:Name="MyGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="35"/>
@@ -14,6 +19,7 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
@@ -40,8 +46,17 @@
         <Label HorizontalContentAlignment="right" Content="City : " Grid.Row="5" Grid.Column="0"/>
         <TextBox Text="{Binding City}" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="30" Grid.Row="5" Grid.Column="1"/>
 
-        <Label HorizontalContentAlignment="right" Content="Standard : " Grid.Row="6" Grid.Column="0"/>
-        <WrapPanel VerticalAlignment="Center" Grid.Row="6" Grid.Column="1">
+        <Label HorizontalContentAlignment="right" Content="Birth Certificate : " Grid.Row="6" Grid.Column="0"/>
+        <StackPanel  Grid.Row="6" Grid.Column="1">
+            <Image Source="{Binding DocImageSource,Mode=TwoWay}" RenderOptions.BitmapScalingMode="Fant" Width="165" MaxHeight="165" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Select File" Width="165" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="25" Click="SelectFileButton_Clicked"/>
+                <Label FontStyle="Italic" Content="{Binding DocFileType}"  ContentStringFormat="Document Type is {0}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Label HorizontalContentAlignment="right" Content="Standard : " Grid.Row="7" Grid.Column="0"/>
+        <WrapPanel VerticalAlignment="Center" Grid.Row="7" Grid.Column="1">
             <ComboBox ItemsSource="{Binding Path=AllStandards}" 
                   DisplayMemberPath="StandardName"
                   SelectedItem="{Binding SelectedStandard}" SelectedIndex="{Binding StdIndex}"
@@ -51,7 +66,7 @@
         </WrapPanel>
 
         <Button Command="{Binding SubmitStudentCommand}"
-                Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
                 Content="{Binding ButtonName}" Padding="3" FontSize="16" Width="120"
                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
 

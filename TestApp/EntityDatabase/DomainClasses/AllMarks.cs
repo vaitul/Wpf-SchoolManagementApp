@@ -16,5 +16,7 @@ namespace TestApp.EntityDatabase.DomainClasses
         public Subject Subject { get; set; }
 
         public int Mark { get; set; }
+
+        //public bool CanEditable { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace TestApp.EntityDatabase.SchoolEntityContext
         public DbSet<DomainClasses.Standard> Standards { get; set; }
         public DbSet<DomainClasses.AllMarks> AllMarks { get; set; }
         public DbSet<DomainClasses.Subject> Subjects { get; set; }
+        public DbSet<DomainClasses.StudentResultCanEditable> StudentResultCanEditables { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

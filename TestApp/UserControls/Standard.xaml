@@ -6,6 +6,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" HorizontalAlignment="Center"
              d:DesignHeight="490" d:DesignWidth="400">
+
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CloseTabCommand}" Key="Esc"/>
+    </UserControl.InputBindings>
+
     <Grid Width="600" Margin="0 0 0 1">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

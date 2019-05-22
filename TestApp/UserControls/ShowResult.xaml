@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CloseTabCommand}" Key="Esc"/>
+    </UserControl.InputBindings>
+
+
     <Grid Width="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -180,7 +185,7 @@
 
         </StackPanel>
 
-        <Grid Grid.Row="1" Width="700">
+        <Grid Grid.Row="1" Width="700" Visibility="{Binding EditableVisibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>

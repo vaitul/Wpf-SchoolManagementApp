@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.UserControls.Subject"
+﻿   <UserControl x:Class="TestApp.UserControls.Subject"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +7,11 @@
              xmlns:local1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CloseTabCommand}" Key="Esc"/>
+    </UserControl.InputBindings>
+
 
     <UserControl.Resources>
         <ResourceDictionary>

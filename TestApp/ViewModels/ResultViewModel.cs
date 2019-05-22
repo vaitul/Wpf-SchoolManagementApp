@@ -48,6 +48,14 @@ namespace TestApp.ViewModels
             set { SetValue(ref _CaryForwardVisibility, value); }
         }
 
+        private Visibility _EditableVisibility;
+
+        public Visibility EditableVisibility
+        {
+            get { return _EditableVisibility; }
+            set { _EditableVisibility = value; }
+        }
+
 
         private ObservableCollection<object> _SubjectAndMarks;
         public ObservableCollection<object> SubjectAndMarks
@@ -123,6 +131,12 @@ namespace TestApp.ViewModels
 
                 if (this.Student != null)
                 {
+                    var check = Context.StudentResultCanEditables.Where(x => x.StudentId == Student.StudentId && x.StandardId == Student.StandardId).FirstOrDefault();
+                    if (check == null)
+                        EditableVisibility = Visibility.Visible;
+                    else
+                        EditableVisibility = Visibility.Hidden;
+
                     this.Standard = Context.Standards.Where(s => s.StandardId == Student.StandardId).FirstOrDefault();
                     AllStandards = Context.Standards.Where(s => s.StandardId != Standard.StandardId).ToList();
 

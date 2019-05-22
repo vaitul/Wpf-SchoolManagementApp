@@ -15,6 +15,8 @@ namespace TestApp.EntityDatabase.DomainClasses
         public string LastName { get; set; }
         public int Age { get; set; }
         public string City { get; set; }
+        public byte[] Doc { get; set; }
+        public string DocType { get; set; }
 
         public int StandardId { get; set; }
         public Standard Standard { get; set; }

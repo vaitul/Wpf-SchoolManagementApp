@@ -50,6 +50,21 @@ namespace TestApp.ViewModels
             set { SetValue(ref _HomeImageVisibilty, value); }
         }
 
+        private bool _ProgressRingIsActive;
+        public bool ProgressRingIsActive
+        {
+            get { return _ProgressRingIsActive; }
+            set { SetValue(ref _ProgressRingIsActive, value); }
+        }
+
+        private bool _TabsIsEnabled;
+
+        public bool TabsIsEnabled
+        {
+            get { return _TabsIsEnabled; }
+            set { SetValue(ref _TabsIsEnabled, value); }
+        }
+
 
         public MainViewModel(Window window)
         {
@@ -66,12 +81,29 @@ namespace TestApp.ViewModels
             HomeImageVisibilty = Visibility.Visible;
 
 
-            ReportResultViewModel tmp = new ReportResultViewModel();
-            tmp = null;
+            InitializeConnection();
+            TabsIsEnabled = false;
+        }
 
-            NewResultReportTab();
+        private async void InitializeConnection()
+        {
+            ProgressRingIsActive = true;
 
+            ShowAllStudentViewModel vm = null;
 
+            await Task.Factory.StartNew(() =>
+            {
+                vm = new ShowAllStudentViewModel();
+            });
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                Tabs.Add(vm);
+            });
+            ProgressRingIsActive = false;
+            TabsIsEnabled = true;
+
+            Tabs.Clear();
         }
 
         private void NewResultReportTab()
@@ -89,8 +121,7 @@ namespace TestApp.ViewModels
             Tabs.Add(new StudentViewModel());
         }
 
-
-        private void ShowAllStudent()
+        private async void ShowAllStudent()
         {
             Tabs.Add(new ShowAllStudentViewModel());
         }

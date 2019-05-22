@@ -14,6 +14,8 @@ namespace TestApp.EntityDatabase.Mapping
             this.Property(t => t.LastName);
             this.Property(t => t.Age);
             this.Property(t => t.City);
+            this.Property(t => t.Doc);
+            this.Property(t => t.DocType);
             this.HasRequired(t => t.Standard).WithMany().HasForeignKey(t => t.StandardId);
         }
     }

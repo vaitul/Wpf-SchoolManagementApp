@@ -17,6 +17,7 @@ namespace TestApp.EntityDatabase.Mapping
             this.HasRequired(t => t.Standard).WithMany().HasForeignKey(t => t.StandardId).WillCascadeOnDelete(false);
             this.HasRequired(t => t.Subject).WithMany().HasForeignKey(t => t.SubjectId).WillCascadeOnDelete(false);
             this.Property(t => t.Mark);
+            //this.Property(t => t.CanEditable);
         }
     }
 }

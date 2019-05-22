@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TestApp.Command;
+using TestApp.Dialogs;
 using TestApp.EntityDatabase.DomainClasses;
 using TestApp.EntityDatabase.SchoolEntityContext;
 using TestApp.UserControls;
@@ -36,11 +39,15 @@ namespace TestApp.ViewModels
         public RelayCommand RemoveRecordCommand { get; set; }
         public RelayCommand EditStudentCommand { get; set; }
         public RelayCommand ShowResultCommand { get; set; }
+        public RelayCommand ShowDocumentCommand { get; set; }
 
         public ShowAllStudentViewModel()
         {
             TabTitle = "Show Students";
-            UserControl = new ShowAllStudent() { DataContext = this };
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                UserControl = new ShowAllStudent() { DataContext = this };
+            });
 
             SchoolObjContext Context = new SchoolObjContext();
             AllStudents = new ObservableCollection<object>(Context.Students.Join(
@@ -74,6 +81,32 @@ namespace TestApp.ViewModels
                 }
                 else
                     MainViewModel.Tabs.Add(new ViewModels.ResultViewModel((int)CurrentItem.Student.StudentId));
+            });
+            ShowDocumentCommand = new RelayCommand(x =>
+            {
+                var stud = x as EntityDatabase.DomainClasses.Student;
+                if (stud.DocType.Equals("photo", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ImageDialog imageDialog = new ImageDialog(stud);
+                    imageDialog.ShowDialog();
+                }
+                else
+                {
+                    var Dialog = new SaveFileDialog()
+                    {
+                        Filter = "PDF file (*.pdf)|*.pdf",
+                        FileName = "Document.pdf"
+                    };
+                    if (Dialog.ShowDialog() == false) { return; }
+
+                    using (Stream file = File.OpenWrite(@Dialog.FileName))
+                    {
+                        file.Write(stud.Doc, 0, stud.Doc.Length);
+                    }
+
+
+                }
+
             });
 
 

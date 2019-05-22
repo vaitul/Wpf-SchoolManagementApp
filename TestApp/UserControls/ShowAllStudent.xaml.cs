@@ -21,7 +21,6 @@ namespace TestApp.UserControls
     /// </summary>
     public partial class ShowAllStudent : UserControl
     {
-        ShowAllStudentViewModel ViewModel;
         public ShowAllStudent()
         {
             InitializeComponent();

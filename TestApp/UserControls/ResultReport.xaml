@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:SchoolManagementSys.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CloseTabCommand}" Key="Esc"/>
+    </UserControl.InputBindings>
+    
     <Grid  Width="800" Margin="0 0 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -53,16 +58,23 @@
                 <DataGridTextColumn IsReadOnly="True" Header="Percentage" Binding="{Binding Percentage,StringFormat={}{0} %}" Width="70"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Pass/Fail" Binding="{Binding Result}" Width="60"/>
                 <DataGridTemplateColumn Header="Result">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="Transparent" BorderThickness="0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.ShowResultCommand}" CommandParameter="{Binding Student.StudentId}">
-                                    <Image Source="/Components/result_icon.png"/>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="Transparent" BorderThickness="0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.ShowResultCommand}" CommandParameter="{Binding Student.StudentId}">
+                                <Image Source="/Components/result_icon.png"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Print">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Print" Background="Transparent" BorderThickness="0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.PrintResultCommand}" CommandParameter="{Binding Student}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                </DataGrid.Columns>
+            </DataGrid.Columns>
             </DataGrid>
 
         
